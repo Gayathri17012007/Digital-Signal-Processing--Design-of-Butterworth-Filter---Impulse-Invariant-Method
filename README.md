@@ -17,7 +17,40 @@ Step 5: Plot the magnitude spectrum with x-label and y-label with suitable title
 Step 6: Terminate the program.
 
 ## PROGRAM:
-
+~~~
+clc  
+clear all  
+close all  
+Ap=input('enter the value of Ap');  
+As=input('enter the value of As');  
+wp=input('enter the PB frequency');  
+ws=input('enter the SB frequency');  
+T=input('enter the value of time');  
+omega_p=(wp/T)  
+omega_s=(ws/T)  
+alpha_p=20*log10(Ap)  
+alpha_s=20*log10(As)  
+[N wc]=buttord(omega_p,omega_s,alpha_p,alpha_s,'s')  
+[num den]=butter(N,1,'s')  
+display('normalised transfer function');  
+hs=tf(num,den)  
+[num1 den1]=butter(N,wc,'s')  
+display('unnormalised transfer function');  
+hs1=tf(num1,den1)  
+[numz denz]=impinvar(num1,den1,1/T)  
+hz=tf(numz,denz,T)  
+display('digital transfer function');  
+w=0:pi/16:pi  
+y=freqz(numz,denz,w); 
+%MAGNITUDE SPECTRUM  
+y1=abs(y);  
+plot(w,y1);  
+xlabel('frequency');  
+ylabel('magnitude');  
+title('magnitude response butterworth LPF');
+~~~
 ## OUTPUT:
+<img width="702" height="627" alt="image" src="https://github.com/user-attachments/assets/3a28995d-e194-4eac-91b2-d6eb85626269" />
 
 ## RESULT:
+![WhatsApp Image 2026-04-01 at 9 41 22 AM](https://github.com/user-attachments/assets/1db45efe-4460-4758-b58e-5ba94d06b816)
